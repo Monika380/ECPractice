@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>
+        function regisrequest() {
+            obj = createAjaxObject();
+            if (obj)
+                alert("object  created first step");
+
+            obj.onreadystatechange = updatePage;
+
+            var url = "http://localhost:9000/getMessage?uname=" + document.fm.uname.value;
+            alert(url);
+            obj.open('GET', url, true);  
+
+          
+            obj.send("");  
+        }
+
+        function createAjaxObject() {
+
+            try {
+                var ajax = new ActiveXObject("Microsoft.XMLHTTP");//old browser
+                return ajax;
+            }
+            catch (e) {
+
+                try {
+                    var ajax = new XMLHttpRequest();//all brower updated 
+                    return ajax;
+                }
+                catch (e) {
+                    alert("Browser does not  support ajax");
+                }
+            }
+        }
+
+        function updatePage() {
+            alert(obj.readyState);
+            if (obj.readyState == 4)
+                document.getElementById("msg").innerHTML = obj.responseText;
+        }
+        
+    </script>
+</head>
+<body>
+    <form name="fm">
+        Enter User name:<input type="text" name="uname" /><br />
+        <input type="button" value="Register" onclick="regisrequest()" />
+
+    </form>
+    <div id="msg"></div>
+</body>
+</html>
